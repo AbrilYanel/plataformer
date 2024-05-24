@@ -2,9 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
+    public GameObject gameOverUI;
+    public Text gameOverText;
+
+
     public static bool gameOver = false;
 
     public static bool winCondition = false;
@@ -21,6 +27,8 @@ public class GameManager : MonoBehaviour
         gameOver = false;
         winCondition = false;
         SetConstraits();
+
+        gameOverUI.SetActive(false);
     }
 
     void Update()
@@ -90,5 +98,16 @@ public class GameManager : MonoBehaviour
                 p.rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
             }
         }
+    }
+
+
+    public void LoseGame(string reason)
+    {
+       
+        gameOverUI.SetActive(true);
+        gameOverText.text = reason;
+
+       
+        Time.timeScale = 0f;
     }
 }

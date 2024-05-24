@@ -24,11 +24,15 @@ public class Controller_Player : MonoBehaviour
     private bool canMoveLeft, canMoveRight,canJump;
     internal bool onFloor;
 
+   
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
         rb.constraints = RigidbodyConstraints.FreezePositionX| RigidbodyConstraints.FreezePositionZ|RigidbodyConstraints.FreezeRotation;
+
+       
     }
 
     public virtual void FixedUpdate()
@@ -155,6 +159,12 @@ public class Controller_Player : MonoBehaviour
             onFloor = true;
         }
 
+        if (collision.gameObject.CompareTag("WallEnemy"))
+        {
+            Destroy(this.gameObject);
+            GameManager.gameOver = true;
+           
+        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -164,4 +174,6 @@ public class Controller_Player : MonoBehaviour
             onFloor = false;
         }
     }
+
+
 }
