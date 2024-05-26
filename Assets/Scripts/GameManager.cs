@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -52,42 +53,52 @@ public class GameManager : MonoBehaviour
         if (i >= 7)
         {
             winCondition = true;
+            SceneManager.LoadScene(1);
         }
     }
+
+   
+
 
     private void GetInput()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (actualPlayer <= 0)
-            {
-                actualPlayer = 6;
-                SetConstraits();
-            }
-            else
-            {
-                actualPlayer--;
-                SetConstraits();
-            }
+            ChangePlayer(actualPlayer - 1);
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (actualPlayer >= 6)
-            {
-                actualPlayer = 0;
-                SetConstraits();
-            }
-            else
-            {
-                actualPlayer++;
-                SetConstraits();
-            }
+            ChangePlayer(actualPlayer + 1);
         }
+    }
+
+    private void ChangePlayer(int newPlayerIndex)
+    {
+        // Reset gravity if the current player is the gravity-inverting player
+        if (players[actualPlayer] is Controller_Player_GravityInverted)
+        {
+            Physics.gravity = new Vector3(0, -30, 0);
+        }
+
+        if (newPlayerIndex < 0)
+        {
+            actualPlayer = players.Count - 1;
+        }
+        else if (newPlayerIndex >= players.Count)
+        {
+            actualPlayer = 0;
+        }
+        else
+        {
+            actualPlayer = newPlayerIndex;
+        }
+
+        SetConstraits();
     }
 
     private void SetConstraits()
     {
-        foreach(Controller_Player p in players)
+        foreach (Controller_Player p in players)
         {
             if (p == players[actualPlayer])
             {
@@ -100,14 +111,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void LoseGame(string reason)
     {
-       
         gameOverUI.SetActive(true);
         gameOverText.text = reason;
-
-       
         Time.timeScale = 0f;
     }
 }

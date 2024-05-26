@@ -4,43 +4,27 @@ using UnityEngine;
 
 public class Controller_Player_GravityInverted : Controller_Player
 {
-    private bool isGravityInverted = false;
+    private bool gravityInverted = false;
 
     public override void FixedUpdate()
     {
-        if (GameManager.actualPlayer == playerNumber)
-        {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                InvertGravity();
-            }
+        base.FixedUpdate();
 
-            base.FixedUpdate();
+        if (Input.GetKeyDown(KeyCode.G) && GameManager.actualPlayer == playerNumber)
+        {
+            InvertGravity();
         }
-    }
 
-    public override bool IsOnSomething()
-    {
-        Vector3 direction = isGravityInverted ? Vector3.up : Vector3.down;
-        return Physics.BoxCast(transform.position, new Vector3(transform.localScale.x * 0.9f, transform.localScale.y / 3, transform.localScale.z * 0.9f), direction, out downHit, Quaternion.identity, downDistanceRay);
-    }
-
-    public override void Jump()
-    {
-        if (IsOnSomething())
+        if (gravityInverted)
         {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                Vector3 jumpDirection = isGravityInverted ? Vector3.down : Vector3.up;
-                rb.AddForce(jumpDirection * jumpForce, ForceMode.Impulse);
-            }
+            base.rb.AddForce(new Vector3(0, 30f, 0));
         }
     }
 
     private void InvertGravity()
     {
-        isGravityInverted = !isGravityInverted;
-        Physics.gravity = new Vector3(Physics.gravity.x, -Physics.gravity.y, Physics.gravity.z);
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z); // Reset vertical velocity
+        gravityInverted = !gravityInverted;
+        Physics.gravity = gravityInverted ? new Vector3(0, 30, 0) : new Vector3(0, -30, 0);
+        jumpForce = gravityInverted ? -Mathf.Abs(jumpForce) : Mathf.Abs(jumpForce);
     }
 }
