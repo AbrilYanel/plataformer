@@ -9,6 +9,7 @@ TagManager:
   - Target
   - Trampoline
   - WallEnemy
+  - Door
   layers:
   - Default
   - TransparentFX

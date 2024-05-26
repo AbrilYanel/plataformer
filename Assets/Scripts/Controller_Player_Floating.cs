@@ -6,6 +6,11 @@ public class Controller_Player_Floating : Controller_Player
 {
     public override void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.CompareTag("WallEnemy"))
+        {
+            Destroy(this.gameObject);
+            GameManager.gameOver = true;
+        }
         if (collision.gameObject.CompareTag("Floor"))
         {
             onFloor = true;
