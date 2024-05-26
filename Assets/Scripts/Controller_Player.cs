@@ -21,7 +21,7 @@ public class Controller_Player : MonoBehaviour
 
     public float distanceRay,downDistanceRay;
 
-    private bool canMoveLeft, canMoveRight,canJump;
+    protected bool canMoveLeft, canMoveRight,canJump;
     internal bool onFloor;
 
    

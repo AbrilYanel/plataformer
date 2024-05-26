@@ -804,18 +804,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7784468982615015747}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &441990912 stripped
+--- !u!114 &441990912
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7784468982241214019, guid: 88c9987b45506424782c08f1b466ba41,
-    type: 3}
-  m_PrefabInstance: {fileID: 7784468982615015747}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441990910}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4edce82d10e9bf40a1936572654861c, type: 3}
+  m_Script: {fileID: 11500000, guid: 24d27eca92f9e0a40a60f2ff4ea44551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpForce: 17
+  speed: 12
+  playerNumber: 2
+  rb: {fileID: 0}
+  floor:
+    serializedVersion: 2
+    m_Bits: 512
+  distanceRay: 0.3
+  downDistanceRay: 1
 --- !u!1 &452840932
 GameObject:
   m_ObjectHideFlags: 0
@@ -3370,10 +3379,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7784468982241214019, guid: 88c9987b45506424782c08f1b466ba41, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7784468982241214397, guid: 88c9987b45506424782c08f1b466ba41,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 441990912}
   m_SourcePrefab: {fileID: 100100000, guid: 88c9987b45506424782c08f1b466ba41, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
