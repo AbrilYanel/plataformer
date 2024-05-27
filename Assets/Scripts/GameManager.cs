@@ -11,16 +11,18 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUI;
     public Text gameOverText;
 
+    public GameObject winUI;
+    public Text winText;
 
     public static bool gameOver = false;
-
     public static bool winCondition = false;
-
     public static int actualPlayer = 0;
 
     public List<Controller_Target> targets;
-
     public List<Controller_Player> players;
+
+    public int targetsToWinInFirstScene = 7; // Number of targets to win in the first scene
+    public int targetsToWinInSecondScene = 7; // Number of targets to win in the second scene
 
     void Start()
     {
@@ -30,35 +32,48 @@ public class GameManager : MonoBehaviour
         SetConstraits();
 
         gameOverUI.SetActive(false);
+        if (winUI != null) winUI.SetActive(false);
     }
 
     void Update()
     {
         GetInput();
         CheckWin();
-
     }
 
     private void CheckWin()
     {
         int i = 0;
-        foreach(Controller_Target t in targets)
+        foreach (Controller_Target t in targets)
         {
             if (t.playerOnTarget)
             {
                 i++;
-                //Debug.Log(i.ToString());
             }
         }
-        if (i >= 7)
+
+        if (SceneManager.GetActiveScene().buildIndex == 0 && i >= targetsToWinInFirstScene)
         {
             winCondition = true;
             SceneManager.LoadScene(1);
+
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 1 && i >= targetsToWinInSecondScene)
+        {
+            winCondition = true;
+            ShowWinMessage("Ganastee!");
         }
     }
 
-   
-
+    private void ShowWinMessage(string message)
+    {
+        if (winUI != null)
+        {
+            winUI.SetActive(true);
+            winText.text = message;
+        }
+        Time.timeScale = 0f;
+    }
 
     private void GetInput()
     {
@@ -74,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     private void ChangePlayer(int newPlayerIndex)
     {
-        // Reset gravity if the current player is the gravity-inverting player
+        
         if (players[actualPlayer] is Controller_Player_GravityInverted)
         {
             Physics.gravity = new Vector3(0, -30, 0);
@@ -114,7 +129,7 @@ public class GameManager : MonoBehaviour
     public void LoseGame(string reason)
     {
         gameOverUI.SetActive(true);
-        gameOverText.text = reason;
+        gameOverText.text = "Has Perdido";
         Time.timeScale = 0f;
     }
 }
